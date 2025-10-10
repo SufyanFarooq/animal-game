@@ -87,6 +87,9 @@
                 <ion-icon name="logo-youtube"></ion-icon>
               </a>
             </li>
+            <li>
+              <button class="btn skewBg" onclick="downloadLitepaper()">Lite Paper</button>
+            </li>
 
           </ul>
 
@@ -213,7 +216,11 @@
               earn rewards through epic battles.
             </p>
 
-            <button class="btn skewBg">Start Playing</button>
+            <div class="" style="display: flex; gap: 10px; text-align: center; align-items: center;">
+              <button class="btn skewBg">Start Playing</button>
+              <button class="btn skewBg" onclick="downloadWhitepaper()">Whitepaper</button>
+            </div>
+
 
           </div>
 
@@ -2067,6 +2074,24 @@
   <!-- 
     - copy to clipboard function
   -->
+
+    <script>
+      function downloadWhitepaper() {
+        const link = document.createElement('a');
+        link.href = 'assets/whitepaper.pdf';
+        link.download = 'whitepaper.pdf';
+        link.click();
+      }
+      </script>
+
+<script>
+  function downloadLitepaper() {
+    const link = document.createElement('a');
+    link.href = 'assets/litepaper.pdf';
+    link.download = 'Litepaper.pdf';
+    link.click();
+  }
+  </script>
   <script>
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(function () {
