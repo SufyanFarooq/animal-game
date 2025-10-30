@@ -262,6 +262,9 @@ body {
   text-transform: uppercase;
 }
 
+.text_start{
+  text-align: start !important;
+}
 .section-subtitle {
   color: var(--silver);
   font-size: var(--fs-9);
