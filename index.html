@@ -2653,13 +2653,23 @@
     - New Year Popup Modal Script
   -->
   <script>
-    // Show popup on every page load/refresh
-    window.addEventListener('DOMContentLoaded', function() {
+    // Function to show modal
+    function showNewYearModal() {
       const modal = document.getElementById('newYearModal');
       if (modal) {
         modal.classList.add('active');
       }
-    });
+    }
+
+    // Show popup on every page load/refresh
+    // Check if DOM is already loaded (script is at end of body)
+    if (document.readyState === 'loading') {
+      // DOM is still loading, wait for DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', showNewYearModal);
+    } else {
+      // DOM is already loaded, show modal immediately
+      showNewYearModal();
+    }
 
     // Close modal function
     function closeNewYearModal() {
