@@ -29,9 +29,393 @@
   <!-- 
     - preload images
   -->
+
+  <!-- Launch Announcement Banner & Countdown Timer Styles -->
+  <style>
+    /* Launch Announcement Banner Styles - Matching Site Color Scheme */
+    .launch-announcement-banner {
+      width: 100%;
+      background: transparent;
+      padding: 0;
+      position: relative;
+    }
+
+    .announcement-content {
+      text-align: left;
+      position: relative;
+      color: var(--quick-silver, hsl(0, 1%, 65%));
+      font-family: var(--ff-poppins, 'Poppins', sans-serif);
+      font-size: var(--fs-10, 1.3rem);
+      font-weight: var(--fw-600, 600);
+      line-height: 1.6;
+    }
+
+
+    .announcement-text {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--quick-silver, hsl(0, 1%, 65%));
+      font-size: var(--fs-10, 1.3rem);
+      font-weight: var(--fw-600, 600);
+    }
+
+    .announcement-main {
+      font-weight: var(--fw-500, 500);
+    }
+
+    .announcement-date {
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      margin-inline: 5px;
+    }
+
+    .announcement-date::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: skewX(-16deg);
+      background-color: var(--marigold, hsl(42, 99%, 46%));
+      z-index: -1;
+      box-shadow: var(--shadow-1);
+    }
+
+    .announcement-date span {
+      display: inline-block;
+      color: var(--xiketic, hsl(277, 25%, 10%));
+      font-size: 1.8rem;
+      font-weight: var(--fw-700, 700);
+      padding: 10px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .countdown-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-left: 0.5rem;
+      color: var(--marigold, hsl(42, 99%, 46%));
+      font-weight: var(--fw-700, 700);
+      font-size: var(--fs-10, 1.3rem);
+      font-family: var(--ff-oxanium, 'Oxanium', cursive);
+    }
+
+    .countdown-inline span {
+      min-width: 2ch;
+      text-align: center;
+    }
+
+    /* New Year Popup Modal Styles */
+    .new-year-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .new-year-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background: var(--raisin-black-3, hsl(280, 11%, 11%));
+      border: 2px solid var(--marigold, hsl(42, 99%, 46%));
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+      animation: slideUp 0.4s ease;
+      text-align: center;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--white, hsl(0, 0%, 100%));
+      font-size: 2rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--marigold, hsl(42, 99%, 46%));
+      color: var(--xiketic, hsl(277, 25%, 10%));
+    }
+
+    .modal-title {
+      font-size: 2.5rem;
+      font-weight: var(--fw-800, 800);
+      color: var(--marigold, hsl(42, 99%, 46%));
+      font-family: var(--ff-oxanium, 'Oxanium', cursive);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .modal-subtitle {
+      font-size: 1.5rem;
+      color: var(--white, hsl(0, 0%, 100%));
+      font-weight: var(--fw-600, 600);
+      margin-bottom: 1.5rem;
+      font-family: var(--ff-oxanium, 'Oxanium', cursive);
+    }
+
+    .modal-badge {
+      display: inline-block;
+      background: var(--marigold, hsl(42, 99%, 46%));
+      color: var(--xiketic, hsl(277, 25%, 10%));
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      font-weight: var(--fw-700, 700);
+      font-size: var(--fs-9, 1.4rem);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .modal-text {
+      color: var(--quick-silver, hsl(0, 1%, 65%));
+      font-size: var(--fs-8, 1.5rem);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .modal-text strong {
+      color: var(--white, hsl(0, 0%, 100%));
+      font-weight: var(--fw-700, 700);
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .modal-title {
+        font-size: 2rem;
+      }
+
+      .modal-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .modal-text {
+        font-size: 1.3rem;
+      }
+
+      .countdown-inline {
+        font-size: 1rem;
+        margin-left: 0.3rem;
+        gap: 0.2rem;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .header-top .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .launch-announcement-banner {
+        flex: 1;
+        max-width: 60%;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .announcement-content {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      
+      .announcement-text {
+        justify-content: center;
+        font-size: 1rem;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+
+      .announcement-date {
+        font-size: 1.3rem;
+        padding: 6px 12px;
+        display: inline-block;
+      }
+
+      .countdown-inline {
+        font-size: 0.9rem;
+        margin-left: 0.3rem;
+      }
+    }
+
+    .countdown-timer {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .countdown-label {
+      font-size: var(--fs-6, 2rem);
+      margin-bottom: 1rem;
+      color: var(--white, hsl(0, 0%, 100%));
+      font-weight: var(--fw-700, 700);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--ff-oxanium, 'Oxanium', cursive);
+    }
+
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .timer-item {
+      background: var(--white_10, hsla(0, 0%, 100%, 0.1));
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--white_15, hsla(0, 0%, 100%, 0.15));
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .timer-item:hover {
+      background: var(--white_15, hsla(0, 0%, 100%, 0.15));
+      border-color: var(--marigold_75, hsla(42, 99%, 46%, 0.75));
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-2);
+    }
+
+    .timer-value {
+      font-size: 2.5rem;
+      font-weight: var(--fw-800, 800);
+      color: var(--white, hsl(0, 0%, 100%));
+      font-family: var(--ff-oxanium, 'Oxanium', cursive);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .timer-label {
+      font-size: var(--fs-11, 1.2rem);
+      color: var(--light-gray-1, hsl(0, 0%, 80%));
+      font-weight: var(--fw-600, 600);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--ff-poppins, 'Poppins', sans-serif);
+    }
+
+    @media (max-width: 768px) {
+      .timer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        max-width: 100%;
+      }
+
+      .timer-item {
+        padding: 1rem 0.8rem;
+      }
+
+      .timer-value {
+        font-size: 2rem;
+      }
+
+      .timer-label {
+        font-size: 0.75rem;
+      }
+
+      .countdown-label {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .timer-grid {
+        gap: 0.5rem;
+      }
+
+      .timer-item {
+        padding: 0.8rem 0.5rem;
+      }
+
+      .timer-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body id="top">
+
+  <!-- 
+    - #NEW YEAR POPUP MODAL
+  -->
+  <div class="new-year-modal" id="newYearModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeNewYearModal()" aria-label="Close">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      
+      <h2 class="modal-title">🎉 Happy New Year 2026 🎉</h2>
+      
+      <p class="modal-subtitle">A new year. A new power.</p>
+      
+      <div class="modal-badge">Animal Game is officially in PRE-LAUNCH phase.</div>
+      
+      <h3 class="modal-subtitle" style="font-size: 1.8rem; margin-bottom: 1rem;">Pre-Launching Now</h3>
+      
+      <div class="modal-text">
+        <p>We are proud to announce that <strong>ANIMAL GAME</strong> has entered its pre-launch stage.</p>
+        <p style="margin-top: 1rem;">This phase is specially designed for early believers, smart players, and future leaders who want to be part of something powerful before the global launch.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- 
     - #HEADER
@@ -42,8 +426,20 @@
     <div class="header-top">
       <div class="container">
 
-        <div class="countdown-text">
-          Exclusive Black Friday ! Offer <span class="span skewBg">10</span> Days
+        <!-- Launch Announcement Banner -->
+        <div class="launch-announcement-banner">
+          <div class="announcement-content">
+            <div class="announcement-text">
+              <span class="announcement-main">Animal Game Tap Tap Kombat launching on</span>
+              <span class="announcement-date"><span>10 January 2026</span></span>
+              <span class="countdown-inline">
+                <span id="top-days">00</span>d :
+                <span id="top-hours">00</span>h :
+                <span id="top-minutes">00</span>m :
+                <span id="top-seconds">00</span>s
+              </span>
+            </div>
+          </div>
         </div>
 
         <div class="social-wrapper">
@@ -216,7 +612,32 @@
               earn rewards through epic battles.
             </p>
 
-            <div class="" style="display: flex; gap: 10px; text-align: center; align-items: center;">
+            <!-- Countdown Timer -->
+            <div class="countdown-timer" id="countdownTimer">
+              <p class="countdown-label" style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">
+                Launch Countdown
+              </p>
+              <div class="timer-grid">
+                <div class="timer-item">
+                  <div class="timer-value" id="days">00</div>
+                  <div class="timer-label">Days</div>
+                </div>
+                <div class="timer-item">
+                  <div class="timer-value" id="hours">00</div>
+                  <div class="timer-label">Hours</div>
+                </div>
+                <div class="timer-item">
+                  <div class="timer-value" id="minutes">00</div>
+                  <div class="timer-label">Minutes</div>
+                </div>
+                <div class="timer-item">
+                  <div class="timer-value" id="seconds">00</div>
+                  <div class="timer-label">Seconds</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="" style="display: flex; gap: 10px; text-align: center; align-items: center; margin-top: 2rem;">
               <button class="btn skewBg">Start Playing</button>
               <button class="btn skewBg" onclick="downloadWhitepaper()">Whitepaper</button>
             </div>
@@ -2177,6 +2598,91 @@
         }, 300);
       }, 3000);
     }
+  </script>
+
+  <!-- 
+    - Countdown Timer Script
+  -->
+  <script>
+    // Countdown Timer for January 10, 2026 Launch
+    function updateCountdown() {
+      // Set launch date: January 10, 2026, 00:00:00
+      const now = new Date();
+      const launchDate = new Date(2026, 0, 10, 0, 0, 0); // January 10, 2026, 00:00:00 (month is 0-indexed, so 0 = January)
+
+      const timeLeft = launchDate - now;
+
+      if (timeLeft <= 0) {
+        // Launch date has arrived
+        if (document.getElementById('days')) document.getElementById('days').textContent = '00';
+        if (document.getElementById('hours')) document.getElementById('hours').textContent = '00';
+        if (document.getElementById('minutes')) document.getElementById('minutes').textContent = '00';
+        if (document.getElementById('seconds')) document.getElementById('seconds').textContent = '00';
+        if (document.getElementById('top-days')) document.getElementById('top-days').textContent = '00';
+        if (document.getElementById('top-hours')) document.getElementById('top-hours').textContent = '00';
+        if (document.getElementById('top-minutes')) document.getElementById('top-minutes').textContent = '00';
+        if (document.getElementById('top-seconds')) document.getElementById('top-seconds').textContent = '00';
+        return;
+      }
+
+      // Calculate time units
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      // Update hero section countdown with leading zeros
+      if (document.getElementById('days')) document.getElementById('days').textContent = String(days).padStart(2, '0');
+      if (document.getElementById('hours')) document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      if (document.getElementById('minutes')) document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      if (document.getElementById('seconds')) document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+      // Update top bar countdown with leading zeros
+      if (document.getElementById('top-days')) document.getElementById('top-days').textContent = String(days).padStart(2, '0');
+      if (document.getElementById('top-hours')) document.getElementById('top-hours').textContent = String(hours).padStart(2, '0');
+      if (document.getElementById('top-minutes')) document.getElementById('top-minutes').textContent = String(minutes).padStart(2, '0');
+      if (document.getElementById('top-seconds')) document.getElementById('top-seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    // Update countdown immediately and then every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+  <!-- 
+    - New Year Popup Modal Script
+  -->
+  <script>
+    // Show popup on every page load/refresh
+    window.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('newYearModal');
+      if (modal) {
+        modal.classList.add('active');
+      }
+    });
+
+    // Close modal function
+    function closeNewYearModal() {
+      const modal = document.getElementById('newYearModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+      const modal = document.getElementById('newYearModal');
+      if (modal && event.target === modal) {
+        closeNewYearModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeNewYearModal();
+      }
+    });
   </script>
 
   <!-- 
