@@ -2604,11 +2604,11 @@
     - Countdown Timer Script
   -->
   <script>
-    // Countdown Timer for January 10, 2026 Launch
+    // Countdown Timer for January 10, 2026 Launch (until end of day)
     function updateCountdown() {
-      // Set launch date: January 10, 2026, 00:00:00
+      // Set launch date: January 11, 2026, 00:00:00 (end of January 10, 2026)
       const now = new Date();
-      const launchDate = new Date(2026, 0, 10, 0, 0, 0); // January 10, 2026, 00:00:00 (month is 0-indexed, so 0 = January)
+      const launchDate = new Date(2026, 0, 11, 0, 0, 0); // January 11, 2026, 00:00:00 = End of January 10, 2026 (month is 0-indexed, so 0 = January)
 
       const timeLeft = launchDate - now;
 
