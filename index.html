@@ -565,6 +565,10 @@
 
     .welcome-actions {
       margin: 2rem 0;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .celebration-btn {
@@ -583,6 +587,74 @@
     .celebration-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 35px rgba(255, 193, 7, 0.4);
+    }
+
+    .game-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(45deg, #ff6b35, #ff8c00, #ffd700);
+      font-weight: var(--fw-800, 800);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      animation: btnPulse 2s infinite;
+    }
+
+    .game-link-btn:hover {
+      background: linear-gradient(45deg, #ff8c00, #ffd700, #ff6b35);
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    @keyframes btnPulse {
+      0%, 100% {
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+      }
+      50% {
+        box-shadow: 0 8px 35px rgba(255, 193, 7, 0.5);
+      }
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white, hsl(0, 0%, 100%));
+      border: 2px solid rgba(255, 193, 7, 0.3);
+      backdrop-filter: blur(10px);
+      font-weight: var(--fw-600, 600);
+    }
+
+    .secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--marigold, hsl(42, 99%, 46%));
+      color: var(--marigold, hsl(42, 99%, 46%));
+      transform: translateY(-2px);
+    }
+
+    .game-nav-btn {
+      background: linear-gradient(45deg, #ff6b35, #ff8c00) !important;
+      color: var(--xiketic, hsl(277, 25%, 10%)) !important;
+      font-weight: var(--fw-700, 700) !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      animation: navPulse 3s infinite;
+    }
+
+    .game-nav-btn:hover {
+      background: linear-gradient(45deg, #ff8c00, #ffd700) !important;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .game-nav-btn br {
+      display: block;
+      margin: 0;
+      line-height: 0.8;
+    }
+
+    @keyframes navPulse {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+      }
     }
 
     .celebration-badges {
@@ -777,29 +849,6 @@
 
 <body id="top">
 
-  <!--
-    - #NEW YEAR POPUP MODAL
-  -->
-  <div class="new-year-modal" id="newYearModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeNewYearModal()" aria-label="Close">
-        <ion-icon name="close"></ion-icon>
-      </button>
-
-      <h2 class="modal-title">🎉 Happy New Year 2026 🎉</h2>
-
-      <p class="modal-subtitle">A new year. A new power.</p>
-
-      <div class="modal-badge">Animal Game is officially in PRE-LAUNCH phase.</div>
-
-      <h3 class="modal-subtitle" style="font-size: 1.8rem; margin-bottom: 1rem;">Pre-Launching Now</h3>
-
-      <div class="modal-text">
-        <p>We are proud to announce that <strong>ANIMAL GAME</strong> has entered its pre-launch stage.</p>
-        <p style="margin-top: 1rem;">This phase is specially designed for early believers, smart players, and future leaders who want to be part of something powerful before the global launch.</p>
-      </div>
-    </div>
-  </div>
 
   <!--
     - #WELCOME CELEBRATION POPUP MODAL
@@ -840,6 +889,13 @@
         </div>
       </div>
 
+      <div class="welcome-actions">
+        <a href="https://animalkombat.animalgame.live/auth/login" target="_blank" class="btn celebration-btn game-link-btn">
+          <ion-icon name="game-controller"></ion-icon>
+          Start Playing Now
+        </a>
+        <button class="btn celebration-btn secondary-btn" onclick="closeWelcomeModal()">Explore Website</button>
+      </div>
 
       <!-- Celebration badges -->
       <div class="celebration-badges">
@@ -871,16 +927,6 @@
         <!-- Launch Announcement Banner -->
         <div class="launch-announcement-banner">
           <div class="announcement-content">
-            <div class="announcement-text">
-              <span class="announcement-main">Animal Game Tap Tap Kombat launching on</span>
-              <span class="announcement-date"><span>10 January 2026</span></span>
-              <span class="countdown-inline">
-                <span id="top-days">00</span>d :
-                <span id="top-hours">00</span>h :
-                <span id="top-minutes">00</span>m :
-                <span id="top-seconds">00</span>s
-              </span>
-            </div>
           </div>
         </div>
 
@@ -976,6 +1022,12 @@
               <a href="#" class="navbar-link skewBg" data-nav-link>Contact</a>
             </li>
 
+            <li class="navbar-item">
+              <a href="https://animalkombat.animalgame.live/auth/login" target="_blank" class="navbar-link skewBg game-nav-btn" data-nav-link>
+                Play<br>Game
+              </a>
+            </li>
+
           </ul>
         </nav>
 
@@ -1054,33 +1106,12 @@
               earn rewards through epic battles.
             </p>
 
-            <!-- Countdown Timer -->
-            <div class="countdown-timer" id="countdownTimer">
-              <p class="countdown-label" style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">
-                Launch Countdown
-              </p>
-              <div class="timer-grid">
-                <div class="timer-item">
-                  <div class="timer-value" id="days">00</div>
-                  <div class="timer-label">Days</div>
-                </div>
-                <div class="timer-item">
-                  <div class="timer-value" id="hours">00</div>
-                  <div class="timer-label">Hours</div>
-                </div>
-                <div class="timer-item">
-                  <div class="timer-value" id="minutes">00</div>
-                  <div class="timer-label">Minutes</div>
-                </div>
-                <div class="timer-item">
-                  <div class="timer-value" id="seconds">00</div>
-                  <div class="timer-label">Seconds</div>
-                </div>
-              </div>
-            </div>
-
             <div class="" style="display: flex; gap: 10px; text-align: center; align-items: center; margin-top: 2rem;">
-              <button class="btn skewBg">Start Playing</button>
+              <button class="btn skewBg">
+                <a href="https://animalkombat.animalgame.live/auth/login" target="_blank">
+                  Start Playing
+                </a>
+              </button>
               <button class="btn skewBg" onclick="downloadWhitepaper()">Whitepaper</button>
             </div>
 
@@ -3091,51 +3122,6 @@
     setInterval(updateCountdown, 1000);
   </script>
 
-  <!--
-    - New Year Popup Modal Script
-  -->
-  <script>
-    // Function to show modal
-    function showNewYearModal() {
-      const modal = document.getElementById('newYearModal');
-      if (modal) {
-        modal.classList.add('active');
-      }
-    }
-
-    // Show popup on every page load/refresh
-    // Check if DOM is already loaded (script is at end of body)
-    if (document.readyState === 'loading') {
-      // DOM is still loading, wait for DOMContentLoaded
-      document.addEventListener('DOMContentLoaded', showNewYearModal);
-    } else {
-      // DOM is already loaded, show modal immediately
-      showNewYearModal();
-    }
-
-    // Close modal function
-    function closeNewYearModal() {
-      const modal = document.getElementById('newYearModal');
-      if (modal) {
-        modal.classList.remove('active');
-      }
-    }
-
-    // Close modal when clicking outside
-    document.addEventListener('click', function(event) {
-      const modal = document.getElementById('newYearModal');
-      if (modal && event.target === modal) {
-        closeNewYearModal();
-      }
-    });
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closeNewYearModal();
-      }
-    });
-  </script>
 
   <!--
     - Welcome Celebration Popup Modal Script
@@ -3214,10 +3200,13 @@
 
     // Function to close welcome modal
     function closeWelcomeModal() {
+      console.log('closeWelcomeModal called');
       const modal = document.getElementById('welcomeModal');
+      console.log('modal found:', modal);
       if (!modal) return;
 
       modal.classList.remove('active');
+      console.log('modal class removed');
 
       // Clear celebration effects
       const confettiContainer = document.getElementById('confettiContainer');
