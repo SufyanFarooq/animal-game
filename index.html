@@ -994,6 +994,11 @@
               <a href="#home" class="navbar-link skewBg" data-nav-link>Home</a>
             </li>
 
+            <li class="navbar-item litepaper-mobile-item">
+              <a href="assets/litepaper.pdf" class="navbar-link skewBg litepaper-mobile-link"
+                onclick="downloadLitepaper(); return false;" data-nav-link>Lite Paper</a>
+            </li>
+
             <li class="navbar-item">
               <a href="https://airdrop.animalgame.live/" target="_blank" class="navbar-link skewBg" data-nav-link>Airdrop</a>
             </li>
@@ -1133,7 +1138,7 @@
         - #TOKEN CONTRACTS
       -->
 
-      <!-- <section class="section token-contracts" aria-label="token contracts">
+      <section class="section token-contracts" aria-label="token contracts">
         <div class="container">
 
           <div class="token-contracts-content">
@@ -1146,17 +1151,9 @@
                 <h3 class="h3">Animal Token Contract Address (ANT)</h3>
                 <div class="contract-address">
                   <code>0x8d8A1478d8a4185745EcE7E96539b73B7B530419</code>
-                  <button class="copy-btn" onclick="copyToClipboard('0x8d8A1478d8a4185745EcE7E96539b73B7B530419')">
-                    <ion-icon name="copy-outline"></ion-icon>
-                  </button>
-                </div>
-              </div>
-
-              <div class="contract-card">
-                <h3 class="h3">Contract Address Supply</h3>
-                <div class="contract-address">
-                  <code>0xb5D6F4E227775365824e33121db74D5f27285688</code>
-                  <button class="copy-btn" onclick="copyToClipboard('0xb5D6F4E227775365824e33121db74D5f27285688')">
+                  <button class="copy-btn" type="button"
+                    onclick="copyToClipboard('0x8d8A1478d8a4185745EcE7E96539b73B7B530419', this)"
+                    aria-label="Copy ANT token address">
                     <ion-icon name="copy-outline"></ion-icon>
                   </button>
                 </div>
@@ -1166,7 +1163,7 @@
           </div>
 
         </div>
-      </section> -->
+      </section>
 
 
 
@@ -2991,32 +2988,64 @@
   }
   </script>
   <script>
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(function () {
-        // Show success message
-        const button = event.target.closest('.copy-btn');
-        const originalIcon = button.innerHTML;
-        const originalText = button.getAttribute('data-original-text') || 'Copy';
+    function copyToClipboard(text, button) {
+      const targetButton = button || (typeof event !== 'undefined' && event.target
+        ? event.target.closest('.copy-btn')
+        : null);
 
-        // Change button appearance
-        button.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
-        button.style.background = '#4CAF50';
-        button.style.color = 'white';
-        button.setAttribute('data-copied', 'true');
+      const handleCopySuccess = () => {
+        let originalIcon = '';
 
-        // Show toast notification
+        if (targetButton) {
+          originalIcon = targetButton.innerHTML;
+          targetButton.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
+          targetButton.style.background = '#4CAF50';
+          targetButton.style.color = 'white';
+          targetButton.setAttribute('data-copied', 'true');
+        }
+
         showToast('Copied to clipboard!');
 
         setTimeout(() => {
-          button.innerHTML = originalIcon;
-          button.style.background = '';
-          button.style.color = '';
-          button.removeAttribute('data-copied');
+          if (targetButton) {
+            targetButton.innerHTML = originalIcon;
+            targetButton.style.background = '';
+            targetButton.style.color = '';
+            targetButton.removeAttribute('data-copied');
+          }
         }, 2000);
-      }).catch(function (err) {
-        console.error('Could not copy text: ', err);
-        showToast('Copied to clipboard!');
-      });
+      };
+
+      const fallbackCopy = () => {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        textArea.style.pointerEvents = 'none';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        textArea.setSelectionRange(0, textArea.value.length);
+        const copied = typeof document.execCommand === 'function' && document.execCommand('copy');
+        document.body.removeChild(textArea);
+        return copied;
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(handleCopySuccess).catch(function (err) {
+          console.error('Could not copy text with Clipboard API: ', err);
+          if (fallbackCopy()) {
+            handleCopySuccess();
+          } else {
+            showToast('Unable to copy. Please copy manually.', 'error');
+          }
+        });
+      } else if (fallbackCopy()) {
+        handleCopySuccess();
+      } else {
+        showToast('Unable to copy. Please copy manually.', 'error');
+      }
     }
 
     function showToast(message, type = 'success') {

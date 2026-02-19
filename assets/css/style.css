@@ -445,7 +445,9 @@ body {
 
 .navbar.active {
   visibility: visible;
-  max-height: 275px;
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transition-duration: 0.5s;
 }
 
@@ -457,6 +459,8 @@ body {
 }
 
 .navbar-link:is(:hover, :focus) { background-color: var(--white_10); }
+
+.litepaper-mobile-item { display: block; }
 
 
 
@@ -1542,6 +1546,8 @@ body {
   }
 
   .navbar-link:is(:hover, :focus)::before { opacity: 1; }
+
+  .litepaper-mobile-item { display: none; }
 
 
 
