@@ -470,6 +470,9 @@
       border-radius: 50%;
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
+      z-index: 10003;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .celebration-close:hover {
@@ -626,6 +629,42 @@
       border-color: var(--marigold, hsl(42, 99%, 46%));
       color: var(--marigold, hsl(42, 99%, 46%));
       transform: translateY(-2px);
+    }
+
+    .hero-action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .hero-action-group .btn {
+      margin-inline: 0;
+      flex: 1 1 180px;
+      text-align: center;
+    }
+
+    .hero-action-group .btn a {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 575px) {
+      .hero-action-group {
+        gap: 12px;
+      }
+
+      .hero-action-group .btn {
+        width: 100%;
+        min-width: 0;
+        flex-basis: 100%;
+      }
+
+      .hero-action-group .btn::after {
+        display: none;
+      }
     }
 
     .game-nav-btn {
@@ -1115,20 +1154,17 @@
               earn rewards through epic battles.
             </p>
 
-            <div class="" style="display: flex; gap: 10px; text-align: center; align-items: center; margin-top: 2rem;">
+            <div class="hero-action-group">
               <button class="btn skewBg">
                 <a href="https://animalkombat.animalgame.live/auth/login" target="_blank">
                   Start Playing
                 </a>
               </button>
-               <button class="btn skewBg">
+              <button class="btn skewBg">
                 <a href="https://animalgame.games" target="_blank">
                   Youth Summit
                 </a>
               </button>
-              <!-- <a href="https://animalgame.games" target="_blank" class="btn skewBg">
-                Youth Summit
-              </a> -->
               <button class="btn skewBg" onclick="downloadWhitepaper()">Whitepaper</button>
             </div>
 
@@ -3259,6 +3295,15 @@
 
     // Show welcome modal on page load (after a short delay)
     document.addEventListener('DOMContentLoaded', function() {
+      const welcomeCloseButton = document.querySelector('.celebration-close');
+      if (welcomeCloseButton) {
+        welcomeCloseButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          closeWelcomeModal();
+        });
+      }
+
       setTimeout(() => {
         showWelcomeModal();
       }, 1000); // Show after 1 second
